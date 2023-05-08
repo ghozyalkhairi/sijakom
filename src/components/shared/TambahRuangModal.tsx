@@ -13,6 +13,7 @@ import {
   Input,
 } from "@chakra-ui/react"
 import { createRuangLab } from "@/lib/ruangLab"
+import { useAppActions } from "@/store/appStore"
 
 interface Props {
   isOpen: boolean
@@ -20,9 +21,11 @@ interface Props {
 }
 
 const TambahRuangModal: FC<Props> = ({ isOpen, onClose }) => {
-  const [nama, setNama] = useState("")
-  const [totalUnit, setTotalUnit] = useState(0)
-  const [unitAktif, setUnitAktif] = useState(0)
+  const [nama, setNama] = useState<string>("")
+  const [totalUnit, setTotalUnit] = useState<number>(0)
+  const [unitAktif, setUnitAktif] = useState<number>(0)
+
+  const { setReload } = useAppActions()
 
   const tambahRuangLab = () => {
     const ruangLab = {
@@ -30,14 +33,17 @@ const TambahRuangModal: FC<Props> = ({ isOpen, onClose }) => {
       jumlahKomputerTotal: totalUnit,
       jumlahKomputerAktif: unitAktif,
     }
+    if (unitAktif > totalUnit) {
+      return
+    }
     if (nama && totalUnit && unitAktif) {
       createRuangLab(ruangLab)
         .then((res) => {
           setNama("")
           setTotalUnit(0)
           setUnitAktif(0)
-          console.log(res)
           onClose()
+          setReload()
         })
         .catch((err) => console.log(err))
     }
@@ -64,6 +70,8 @@ const TambahRuangModal: FC<Props> = ({ isOpen, onClose }) => {
               type="number"
               value={totalUnit}
               onChange={(e) => setTotalUnit(parseInt(e.target.value))}
+              min={0}
+              max={100}
             />
           </FormControl>
           <FormControl mt={4}>
@@ -73,6 +81,8 @@ const TambahRuangModal: FC<Props> = ({ isOpen, onClose }) => {
               type="number"
               value={unitAktif}
               onChange={(e) => setUnitAktif(parseInt(e.target.value))}
+              min={0}
+              max={totalUnit}
             />
           </FormControl>
         </ModalBody>

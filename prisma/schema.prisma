@@ -34,4 +34,5 @@ model Jadwal {
   jamSelesai String
   matkul     String
   dosen      String
+  urutan     Int
 }

@@ -6,8 +6,8 @@ import { useEffect, useState } from "react"
 import { getRuangLab } from "@/lib/ruangLab"
 
 export default function Home() {
-  const [loadingRuangLab, setLoadingRuangLab] = useState(true)
-  const [listRuangLab, setListRuangLab] = useState([])
+  const [loadingRuangLab, setLoadingRuangLab] = useState<boolean>(true)
+  const [listRuangLab, setListRuangLab] = useState<RuangLab[]>([])
   useEffect(() => {
     setLoadingRuangLab(true)
     const getListRuangLab = async () => {
@@ -40,9 +40,9 @@ export default function Home() {
             Sistem Informasi Jadwal Laboratorium Komputer
           </Text>
           {loadingRuangLab ? (
-            <Box w="100%" bg="brand.primary" p={4} mt={4} borderRadius="lg">
+            <Box w="100%" bg="brand.primary" p={8} mt={4} borderRadius="lg">
               <Center>
-                <Spinner scale={1.5} color="brand.white" />
+                <Spinner size="lg" color="brand.white" />
               </Center>
             </Box>
           ) : (

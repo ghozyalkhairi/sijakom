@@ -8,7 +8,7 @@ interface Props {}
 
 const DashboardNav: FC<Props> = () => {
   return (
-    <Box w="20%" minH="100vh" shadow="lg" mr={3}>
+    <Box w="20%" minH="100vh" shadow="lg">
       <Center mt={4}>
         <Image src={Logo} alt="Logo" width={90} />
       </Center>

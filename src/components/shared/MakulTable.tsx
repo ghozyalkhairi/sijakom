@@ -2,45 +2,129 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
+  useDisclosure,
   Tr,
   Th,
   Td,
   TableCaption,
   TableContainer,
+  Center,
+  Text,
+  Spinner,
+  Button,
 } from "@chakra-ui/react"
+import { FC, useState, useEffect } from "react"
+import { getJadwalLab } from "@/lib/jadwalLab"
+import JadwalModal from "./JadwalModal"
 
-const MakulTable = () => {
+interface Props {
+  selectedLabId: string
+  selectedLabName: string
+  hari: string
+  setHari: (hari: string) => void
+  isAuth?: boolean
+}
+
+const MakulTable: FC<Props> = ({
+  selectedLabId,
+  hari,
+  isAuth,
+  selectedLabName,
+  setHari,
+}) => {
+  const [loadingJadwalLab, setLoadingJadwalLab] = useState<boolean>(true)
+  const [jadwalLab, setJadwalLab] = useState<Jadwal[]>([])
+  const [selectedJadwalID, setSelectedJadwalID] = useState("")
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  useEffect(() => {
+    const fetchJadwalLab = async () => {
+      setLoadingJadwalLab(true)
+      const jadwalLab = await getJadwalLab(selectedLabId, hari)
+      setJadwalLab(jadwalLab.data)
+      setLoadingJadwalLab(false)
+    }
+    fetchJadwalLab()
+  }, [hari])
+  if (loadingJadwalLab) {
+    return (
+      <Center my={2}>
+        <Spinner size="md" />
+      </Center>
+    )
+  }
+  if (jadwalLab.length === 0) {
+    return (
+      <Center>
+        <Text>Belum ada jadwal makul</Text>
+      </Center>
+    )
+  }
   return (
-    <TableContainer>
-      <Table variant="simple">
-        <TableCaption>Jadwal Makul Lab Komputer Dasar</TableCaption>
-        <Thead>
-          <Tr>
-            <Th isNumeric>Waktu</Th>
-            <Th>Mata Kuliah</Th>
-            <Th>Dosen Pengampu</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td isNumeric>08.30 - 10.30</Td>
-            <Td>Aplikasi Komputer</Td>
-            <Td>Budiman, ST., MT</Td>
-          </Tr>
-          <Tr>
-            <Td isNumeric>10.30 - 12.30</Td>
-            <Td>Aplikasi Komputer</Td>
-            <Td>Budiman, ST., MT</Td>
-          </Tr>
-          <Tr>
-            <Td isNumeric>13.30 - 14.30</Td>
-            <Td>Aplikasi Komputer</Td>
-            <Td>Budiman, ST., MT</Td>
-          </Tr>
-        </Tbody>
-      </Table>
-    </TableContainer>
+    <>
+      <JadwalModal
+        isOpen={isOpen}
+        onClose={onClose}
+        selectedLabId={selectedLabId}
+        selectedLabName={selectedLabName}
+        hari={hari}
+        setHari={setHari}
+        jadwal={jadwalLab.find((jadwal) => jadwal.id === selectedJadwalID)}
+        edit={true}
+      />
+      <TableContainer>
+        <Table variant="simple">
+          <TableCaption>Jadwal {selectedLabName}</TableCaption>
+          <Thead>
+            <Tr>
+              <Th isNumeric>Waktu</Th>
+              <Th>Mata Kuliah</Th>
+              <Th>Dosen Pengampu</Th>
+              {isAuth && (
+                <>
+                  <Th>Edit</Th>
+                  <Th>Hapus</Th>
+                </>
+              )}
+            </Tr>
+          </Thead>
+          <Tbody>
+            {jadwalLab.map((jadwal) => (
+              <Tr key={jadwal.id}>
+                <Td isNumeric>
+                  {jadwal.jamMulai} {" - "} {jadwal.jamSelesai}
+                </Td>
+                <Td>{jadwal.matkul}</Td>
+                <Td>{jadwal.dosen}</Td>
+                {isAuth && (
+                  <>
+                    <Td>
+                      <Button
+                        onClick={() => {
+                          setSelectedJadwalID(jadwal.id as string)
+                          onOpen()
+                        }}
+                        w="100%"
+                        colorScheme="blue"
+                        size="sm"
+                      >
+                        Edit
+                      </Button>
+                    </Td>
+                    <Td>
+                      <Button w="100%" colorScheme="red" size="sm">
+                        Hapus
+                      </Button>
+                    </Td>
+                  </>
+                )}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </>
   )
 }
 

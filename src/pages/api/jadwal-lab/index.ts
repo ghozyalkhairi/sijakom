@@ -2,38 +2,35 @@ import type { NextApiRequest, NextApiResponse } from "next"
 import { prisma } from "@/lib/prisma"
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const ruanglab = req.body
   switch (req.method) {
-    case "GET":
-      const resultGet = await prisma.ruangLab.findMany()
-      res.send({ data: resultGet, success: true })
-      break
     case "POST":
-      const resultPost = await prisma.ruangLab.create({
-        data: ruanglab,
+      const jadwal = req.body
+      const resultPost = await prisma.jadwal.create({
+        data: jadwal,
       })
       res.send({ data: resultPost, success: true })
       break
+
     case "PUT":
-      const { id, ...ruanglabData } = ruanglab
-      const resultPut = await prisma.ruangLab.update({
+      const { id, ...jadwalPut } = req.body
+      const resultPut = await prisma.jadwal.update({
         where: {
-          id: ruanglab.id,
+          id,
         },
-        data: ruanglabData,
+        data: jadwalPut,
       })
       res.send({ data: resultPut, success: true })
       break
+
     case "DELETE":
-      const resultDelete = await prisma.ruangLab.delete({
+      const jadwalDelete = req.body
+      const resultDelete = await prisma.jadwal.delete({
         where: {
-          id: ruanglab.id,
+          id: jadwalDelete.id,
         },
       })
       res.send({ data: resultDelete, success: true })
       break
-    default:
-      res.status(405).end()
   }
 }
 

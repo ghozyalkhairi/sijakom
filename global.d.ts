@@ -9,13 +9,17 @@ type RuangLab = RuangLabDraft & {
   jadwal?: Jadwal[]
 }
 
-type Jadwal = {
+type JadwalDraft = {
   id?: string
-  ruangLab: RuangLab
   ruangLabId: string
   hari: string
   jamMulai: string
   jamSelesai: string
   matkul: string
   dosen: string
+  urutan: number
+}
+
+type Jadwal = JadwalDraft & {
+  ruangLab: RuangLab
 }
