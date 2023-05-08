@@ -11,6 +11,7 @@ const Dashboard: NextPage = () => {
   const [loadingRuangLab, setLoadingRuangLab] = useState(true)
   const [listRuangLab, setListRuangLab] = useState([])
   const reload = useAppReload()
+
   useEffect(() => {
     setLoadingRuangLab(true)
     const getListRuangLab = async () => {

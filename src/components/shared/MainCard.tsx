@@ -3,6 +3,8 @@ import { FC, useState } from "react"
 import MakulTable from "./MakulTable"
 import OpsiRuang from "./OpsiRuang"
 import JadwalModal from "./JadwalModal"
+import { format } from "date-fns"
+import { id } from "date-fns/locale"
 
 interface Props {
   isAuth?: boolean
@@ -16,7 +18,9 @@ const MainCard: FC<Props> = ({ isAuth, listRuangLab }) => {
     listRuangLab[0]?.id || ""
   )
 
-  const [hari, setHari] = useState<string>("Senin")
+  const day = format(new Date(), "EEEE", { locale: id })
+
+  const [hari, setHari] = useState<string>(day)
 
   const selectedLab = listRuangLab.find(
     (ruangLab) => ruangLab.id === selectedRuangLab
