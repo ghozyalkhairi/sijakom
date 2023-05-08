@@ -69,7 +69,6 @@ const MainCard: FC<Props> = ({ isAuth, listRuangLab }) => {
           bg="brand.white"
           color="black"
           mt={4}
-          placeholder="Pilih Lab Komputer"
           value={selectedRuangLab}
           onChange={(e) => setSelectedRuangLab(e.target.value)}
         >
@@ -83,7 +82,6 @@ const MainCard: FC<Props> = ({ isAuth, listRuangLab }) => {
           bg="brand.white"
           color="black"
           mt={4}
-          placeholder="Pilih Hari"
           value={hari}
           onChange={(e) => setHari(e.target.value)}
         >
