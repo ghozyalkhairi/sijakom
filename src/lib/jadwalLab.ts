@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios"
 
 const API_URL =
-  process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000/api"
+  `${process.env.NEXT_PUBLIC_VERCEL_URL}/api` || "http://localhost:3000/api"
 
 export const getJadwalLab = async (idLab: string, hari: string) => {
   try {
