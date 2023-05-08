@@ -5,9 +5,10 @@ import OpsiRuang from "./OpsiRuang"
 
 interface Props {
   isAuth?: boolean
+  listRuangLab: RuangLab[]
 }
 
-const MainCard: FC<Props> = ({ isAuth }) => {
+const MainCard: FC<Props> = ({ isAuth, listRuangLab }) => {
   return (
     <Box
       bg="brand.primary"
@@ -26,8 +27,11 @@ const MainCard: FC<Props> = ({ isAuth }) => {
         mt={4}
         placeholder="Pilih Lab Komputer"
       >
-        <option value="labkomdasar">Lab Komputer Dasar</option>
-        <option value="labkomti-a">Lab Komputer Teknik Informatika A</option>
+        {listRuangLab.map((ruangLab) => (
+          <option key={ruangLab.id} value={ruangLab.id}>
+            {ruangLab.nama}
+          </option>
+        ))}
       </Select>
       <Box
         w="100%"

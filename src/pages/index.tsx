@@ -1,9 +1,22 @@
 import Head from "next/head"
-import { Text } from "@chakra-ui/react"
+import { Center, Spinner, Text, Box } from "@chakra-ui/react"
 import MainLayout from "@/components/layout/MainLayout"
 import MainCard from "@/components/shared/MainCard"
+import { useEffect, useState } from "react"
+import { getRuangLab } from "@/lib/ruangLab"
 
 export default function Home() {
+  const [loadingRuangLab, setLoadingRuangLab] = useState(true)
+  const [listRuangLab, setListRuangLab] = useState([])
+  useEffect(() => {
+    setLoadingRuangLab(true)
+    const getListRuangLab = async () => {
+      const data = await getRuangLab()
+      setListRuangLab(data.data)
+      setLoadingRuangLab(false)
+    }
+    getListRuangLab()
+  }, [])
   return (
     <>
       <Head>
@@ -26,7 +39,15 @@ export default function Home() {
           >
             Sistem Informasi Jadwal Laboratorium Komputer
           </Text>
-          <MainCard />
+          {loadingRuangLab ? (
+            <Box w="100%" bg="brand.primary" p={4} mt={4} borderRadius="lg">
+              <Center>
+                <Spinner scale={1.5} color="brand.white" />
+              </Center>
+            </Box>
+          ) : (
+            <MainCard listRuangLab={listRuangLab} />
+          )}
         </MainLayout>
       </main>
     </>

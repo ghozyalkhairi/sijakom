@@ -5,7 +5,7 @@ const API_URL =
 
 export const getRuangLab = async () => {
   try {
-    const response = await axios.get(`${API_URL}/ruanlLab`)
+    const response = await axios.get(`${API_URL}/ruanglab`)
     return response.data
   } catch (error) {
     return (error as AxiosError).response?.data

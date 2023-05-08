@@ -9,12 +9,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "GET":
       const resultGet = await prisma.ruangLab.findMany()
-      res.send({ resultGet, success: true })
+      res.send({ data: resultGet, success: true })
     case "POST":
       const resultPost = await prisma.ruangLab.create({
         data: ruanglab,
       })
-      res.send({ resultPost, success: true })
+      res.send({ data: resultPost, success: true })
       break
     case "PUT":
       const { id, ...ruanglabData } = ruanglab
@@ -24,7 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         },
         data: ruanglabData,
       })
-      res.send({ resultPut, success: true })
+      res.send({ data: resultPut, success: true })
       break
     case "DELETE":
       const resultDelete = await prisma.ruangLab.delete({
@@ -32,7 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           id: ruanglab.id,
         },
       })
-      res.send({ resultDelete, success: true })
+      res.send({ data: resultDelete, success: true })
       break
     default:
       res.status(405).end()

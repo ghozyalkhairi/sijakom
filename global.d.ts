@@ -6,7 +6,7 @@ type RuangLabDraft = {
 }
 
 type RuangLab = RuangLabDraft & {
-  jadwal: Jadwal[]
+  jadwal?: Jadwal[]
 }
 
 type Jadwal = {
