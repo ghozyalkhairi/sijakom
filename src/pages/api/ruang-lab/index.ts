@@ -24,14 +24,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       })
       res.send({ data: resultPut, success: true })
       break
-    case "DELETE":
-      const resultDelete = await prisma.ruangLab.delete({
-        where: {
-          id: ruanglab.id,
-        },
-      })
-      res.send({ data: resultDelete, success: true })
-      break
     default:
       res.status(405).end()
   }
