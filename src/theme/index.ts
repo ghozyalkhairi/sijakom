@@ -6,6 +6,7 @@ const colors = {
     white: "#FFFFFF",
     semiWhite: "#F2F2F2",
     green: "#0EBE35",
+    red: "#EB3117",
   },
 }
 

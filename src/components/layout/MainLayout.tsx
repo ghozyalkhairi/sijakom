@@ -11,7 +11,7 @@ interface Props {
 
 const MainLayout: FC<Props> = ({ children, notLanding }) => {
   return (
-    <Box w="100%" h="100%">
+    <Box w="100%" minH="100vh" display="flex" flexDir="column">
       <Box w="100%" p={4}>
         {!notLanding && <Navbar />}
         {children}
@@ -21,7 +21,7 @@ const MainLayout: FC<Props> = ({ children, notLanding }) => {
           <Image src={UMPImage} alt="UMP" />
         </Box>
       )}
-      <Box w="100%" mt={2} p={4} bg="brand.primary" color="brand.white">
+      <Box w="100%" mt="auto" p={4} bg="brand.primary" color="brand.white">
         <Text as="p" fontSize="sm" textAlign="center">
           © 2023 Sistem Informasi Jadwal Laboratorium Komputer
         </Text>

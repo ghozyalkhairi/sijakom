@@ -10,8 +10,9 @@ import { FC, useState } from "react"
 
 const LoginForm: FC = () => {
   const [username, setUsername] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
   return (
-    <Box bg="brand.primary" color="brand.white" p={4} mt={4} borderRadius="md">
+    <Box bg="brand.primary" color="brand.white" p={4} mt={10} borderRadius="md">
       <Text as="h1" fontSize="2xl" fontWeight="bold" textAlign="center">
         Login
       </Text>
@@ -49,6 +50,9 @@ const LoginForm: FC = () => {
         >
           Login
         </Button>
+        <Text fontSize="sm" textAlign="center" opacity="90%" mt={4}>
+          Khusus untuk kepala dan asisten lab
+        </Text>
       </form>
     </Box>
   )
