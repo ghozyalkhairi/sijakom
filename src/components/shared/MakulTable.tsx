@@ -16,6 +16,7 @@ import {
 import { FC, useState, useEffect } from "react"
 import { getJadwalLab } from "@/lib/jadwalLab"
 import JadwalModal from "./JadwalModal"
+import HapusJadwalModal from "./HapusJadwalModal"
 
 interface Props {
   selectedLabId: string
@@ -37,6 +38,11 @@ const MakulTable: FC<Props> = ({
   const [selectedJadwalID, setSelectedJadwalID] = useState("")
 
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const {
+    isOpen: isOpenHapus,
+    onOpen: onOpenHapus,
+    onClose: onCloseHapus,
+  } = useDisclosure()
 
   useEffect(() => {
     const fetchJadwalLab = async () => {
@@ -63,6 +69,11 @@ const MakulTable: FC<Props> = ({
   }
   return (
     <>
+      <HapusJadwalModal
+        isOpen={isOpenHapus}
+        onClose={onCloseHapus}
+        jadwalId={selectedJadwalID}
+      />
       <JadwalModal
         isOpen={isOpen}
         onClose={onClose}
@@ -113,7 +124,15 @@ const MakulTable: FC<Props> = ({
                       </Button>
                     </Td>
                     <Td>
-                      <Button w="100%" colorScheme="red" size="sm">
+                      <Button
+                        w="100%"
+                        colorScheme="red"
+                        size="sm"
+                        onClick={() => {
+                          setSelectedJadwalID(jadwal.id as string)
+                          onOpenHapus()
+                        }}
+                      >
                         Hapus
                       </Button>
                     </Td>

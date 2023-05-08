@@ -23,10 +23,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       break
 
     case "DELETE":
-      const jadwalDelete = req.body
+      const { id: idDelete, ...jadwalDelete } = req.body
       const resultDelete = await prisma.jadwal.delete({
         where: {
-          id: jadwalDelete.id,
+          id: idDelete,
         },
       })
       res.send({ data: resultDelete, success: true })
