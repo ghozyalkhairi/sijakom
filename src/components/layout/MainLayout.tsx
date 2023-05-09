@@ -7,7 +7,7 @@ import UMPImage from "@/assets/images/jpg/ump.jpg"
 interface Props {
   children: ReactNode
   notLanding?: boolean
-  loadingRuangLab: boolean
+  loadingRuangLab?: boolean
 }
 
 const MainLayout: FC<Props> = ({ children, notLanding, loadingRuangLab }) => {
