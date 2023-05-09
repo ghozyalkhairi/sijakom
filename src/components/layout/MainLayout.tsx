@@ -7,16 +7,17 @@ import UMPImage from "@/assets/images/jpg/ump.jpg"
 interface Props {
   children: ReactNode
   notLanding?: boolean
+  loadingRuangLab: boolean
 }
 
-const MainLayout: FC<Props> = ({ children, notLanding }) => {
+const MainLayout: FC<Props> = ({ children, notLanding, loadingRuangLab }) => {
   return (
     <Box w="100%" minH="100vh" display="flex" flexDir="column">
       <Box w="100%" p={4}>
         {!notLanding && <Navbar />}
         {children}
       </Box>
-      {!notLanding && (
+      {!notLanding && !loadingRuangLab && (
         <Box w="100%" mt={2}>
           <Image src={UMPImage} alt="UMP" />
         </Box>

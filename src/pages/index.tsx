@@ -29,7 +29,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <MainLayout>
+        <MainLayout loadingRuangLab={loadingRuangLab}>
           <Text
             as="h1"
             fontSize="2xl"
