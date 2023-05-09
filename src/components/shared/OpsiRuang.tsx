@@ -1,18 +1,28 @@
-import { FC } from "react"
+import { FC, useState } from "react"
 import { Button, useDisclosure } from "@chakra-ui/react"
 import TambahRuangModal from "./TambahRuangModal"
 
 interface Props {
   tambah?: boolean
+  selectedLab?: RuangLab
 }
 
-const OpsiRuang: FC<Props> = ({ tambah }) => {
+const OpsiRuang: FC<Props> = ({ tambah, selectedLab }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [update, setUpdate] = useState(false)
   return (
     <>
-      <TambahRuangModal onClose={onClose} isOpen={isOpen} />
+      <TambahRuangModal
+        onClose={onClose}
+        isOpen={isOpen}
+        update={update}
+        selectedLab={update ? selectedLab : undefined}
+      />
       <Button
-        onClick={onOpen}
+        onClick={() => {
+          setUpdate(false)
+          onOpen()
+        }}
         w="100%"
         mt={4}
         bg="brand.green"
@@ -26,6 +36,26 @@ const OpsiRuang: FC<Props> = ({ tambah }) => {
         }}
       >
         Tambah Ruangan
+      </Button>
+      <Button
+        onClick={() => {
+          setUpdate(true)
+          onOpen()
+        }}
+        w="100%"
+        mt={4}
+        bg="brand.white"
+        color="brand.primary"
+        size="md"
+        variant="outline"
+        borderColor="brand.primary"
+        _hover={{
+          bg: "brand.primary",
+          color: "brand.white",
+          borderColor: "brand.white",
+        }}
+      >
+        Update Ruangan
       </Button>
       {!tambah && (
         <Button

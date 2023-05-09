@@ -19,20 +19,14 @@ import JadwalModal from "./JadwalModal"
 import HapusJadwalModal from "./HapusJadwalModal"
 
 interface Props {
-  selectedLabId: string
-  selectedLabName: string
+  selectedLab: RuangLab
   hari: string
   setHari: (hari: string) => void
   isAuth?: boolean
 }
 
-const MakulTable: FC<Props> = ({
-  selectedLabId,
-  hari,
-  isAuth,
-  selectedLabName,
-  setHari,
-}) => {
+const MakulTable: FC<Props> = ({ selectedLab, hari, isAuth, setHari }) => {
+  const { id: selectedLabId, nama: selectedLabName } = selectedLab
   const [loadingJadwalLab, setLoadingJadwalLab] = useState<boolean>(true)
   const [jadwalLab, setJadwalLab] = useState<Jadwal[]>([])
   const [selectedJadwalID, setSelectedJadwalID] = useState("")
@@ -47,12 +41,12 @@ const MakulTable: FC<Props> = ({
   useEffect(() => {
     const fetchJadwalLab = async () => {
       setLoadingJadwalLab(true)
-      const jadwalLab = await getJadwalLab(selectedLabId, hari)
+      const jadwalLab = await getJadwalLab(selectedLabId as string, hari)
       setJadwalLab(jadwalLab.data)
       setLoadingJadwalLab(false)
     }
     fetchJadwalLab()
-  }, [hari])
+  }, [hari, selectedLab])
   if (loadingJadwalLab) {
     return (
       <Center my={2}>
@@ -63,7 +57,7 @@ const MakulTable: FC<Props> = ({
   if (jadwalLab.length === 0) {
     return (
       <Center>
-        <Text>Belum ada jadwal makul</Text>
+        <Text>Tidak ada jadwal</Text>
       </Center>
     )
   }
@@ -77,7 +71,7 @@ const MakulTable: FC<Props> = ({
       <JadwalModal
         isOpen={isOpen}
         onClose={onClose}
-        selectedLabId={selectedLabId}
+        selectedLabId={selectedLabId as string}
         selectedLabName={selectedLabName}
         hari={hari}
         setHari={setHari}

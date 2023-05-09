@@ -5,6 +5,7 @@ import OpsiRuang from "./OpsiRuang"
 import JadwalModal from "./JadwalModal"
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
+import { useAppActions } from "@/store/appStore"
 
 interface Props {
   isAuth?: boolean
@@ -14,13 +15,15 @@ interface Props {
 const MainCard: FC<Props> = ({ isAuth, listRuangLab }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
+  const { setReload } = useAppActions()
+
   const [selectedRuangLab, setSelectedRuangLab] = useState<string>(
     listRuangLab[0]?.id || ""
   )
 
   const day = format(new Date(), "EEEE", { locale: id })
 
-  const [hari, setHari] = useState<string>(day)
+  const [hari, setHari] = useState<string>(day || "Senin")
 
   const selectedLab = listRuangLab.find(
     (ruangLab) => ruangLab.id === selectedRuangLab
@@ -90,6 +93,8 @@ const MainCard: FC<Props> = ({ isAuth, listRuangLab }) => {
           <option value="Rabu">Rabu</option>
           <option value="Kamis">Kamis</option>
           <option value="Jumat">Jumat</option>
+          <option value="Sabtu">Sabtu</option>
+          <option value="Minggu">Minggu</option>
         </Select>
         <Box
           w="100%"
@@ -104,8 +109,7 @@ const MainCard: FC<Props> = ({ isAuth, listRuangLab }) => {
           </Text>
           <Box mt={4} w="100%">
             <MakulTable
-              selectedLabId={selectedLab?.id || ""}
-              selectedLabName={selectedLab?.nama || ""}
+              selectedLab={selectedLab}
               hari={hari}
               setHari={setHari}
               isAuth={isAuth}
@@ -151,26 +155,9 @@ const MainCard: FC<Props> = ({ isAuth, listRuangLab }) => {
                 selectedLab?.jumlahKomputerAktif}{" "}
               non-aktif
             </Text>
-            {isAuth && (
-              <Button
-                w="100%"
-                mt={4}
-                bg="brand.primary"
-                color="brand.white"
-                borderColor="brand.primary"
-                size="md"
-                variant="outline"
-                _hover={{
-                  bg: "brand.white",
-                  color: "brand.primary",
-                }}
-              >
-                Update
-              </Button>
-            )}
           </Box>
         </Box>
-        {isAuth && <OpsiRuang />}
+        {isAuth && <OpsiRuang selectedLab={selectedLab} />}
       </Box>
     </>
   )

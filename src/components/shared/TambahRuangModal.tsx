@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useState, useEffect } from "react"
 import {
   Modal,
   ModalOverlay,
@@ -12,20 +12,54 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/react"
-import { createRuangLab } from "@/lib/ruangLab"
+import { createRuangLab, updateRuangLab } from "@/lib/ruangLab"
 import { useAppActions } from "@/store/appStore"
 
 interface Props {
   isOpen: boolean
   onClose: () => void
+  update?: boolean
+  selectedLab?: RuangLab | undefined
 }
 
-const TambahRuangModal: FC<Props> = ({ isOpen, onClose }) => {
-  const [nama, setNama] = useState<string>("")
-  const [totalUnit, setTotalUnit] = useState<number>(0)
-  const [unitAktif, setUnitAktif] = useState<number>(0)
+const TambahRuangModal: FC<Props> = ({
+  isOpen,
+  onClose,
+  update,
+  selectedLab,
+}) => {
+  const [nama, setNama] = useState<string>(selectedLab?.nama || "")
+  const [totalUnit, setTotalUnit] = useState<number>(
+    selectedLab?.jumlahKomputerTotal || 0
+  )
+  const [unitAktif, setUnitAktif] = useState<number>(
+    selectedLab?.jumlahKomputerAktif || 0
+  )
 
   const { setReload } = useAppActions()
+
+  const updateRuangLabHandler = () => {
+    const ruangLab = {
+      id: selectedLab?.id,
+      nama,
+      jumlahKomputerTotal: totalUnit,
+      jumlahKomputerAktif: unitAktif,
+    }
+    if (unitAktif > totalUnit) {
+      return
+    }
+    if (nama && totalUnit && unitAktif) {
+      updateRuangLab(ruangLab)
+        .then((res) => {
+          setNama("")
+          setTotalUnit(0)
+          setUnitAktif(0)
+          onClose()
+          setReload()
+        })
+        .catch((err) => console.log(err))
+    }
+  }
 
   const tambahRuangLab = () => {
     const ruangLab = {
@@ -48,11 +82,24 @@ const TambahRuangModal: FC<Props> = ({ isOpen, onClose }) => {
         .catch((err) => console.log(err))
     }
   }
+
+  useEffect(() => {
+    if (update && selectedLab) {
+      setNama(selectedLab.nama)
+      setTotalUnit(selectedLab.jumlahKomputerTotal)
+      setUnitAktif(selectedLab.jumlahKomputerAktif)
+    }
+    if (!update) {
+      setNama("")
+      setTotalUnit(0)
+      setUnitAktif(0)
+    }
+  }, [update])
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Tambah Ruangan Lab</ModalHeader>
+        <ModalHeader>{update ? "Update " : "Tambah "} Ruangan</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <FormControl mt={4}>
@@ -88,7 +135,11 @@ const TambahRuangModal: FC<Props> = ({ isOpen, onClose }) => {
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={tambahRuangLab}>
+          <Button
+            colorScheme="blue"
+            mr={3}
+            onClick={update ? updateRuangLabHandler : tambahRuangLab}
+          >
             Submit
           </Button>
           <Button onClick={onClose} variant="ghost">
