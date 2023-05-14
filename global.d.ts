@@ -1,3 +1,5 @@
+import { type } from "os"
+
 type RuangLabDraft = {
   id?: string
   nama: string
@@ -22,4 +24,15 @@ type JadwalDraft = {
 
 type Jadwal = JadwalDraft & {
   ruangLab: RuangLab
+}
+
+type UserDraft = {
+  username: string
+  password: string
+  fullname: string
+}
+
+type User = UserDraft & {
+  id: string
+  role: "admin" | "user"
 }

@@ -32,6 +32,19 @@ const DashboardNav: FC<Props> = () => {
             Lab Komputer
           </Text>
         </Link>
+        <Link href="/dashboard/asisten-lab">
+          <Text
+            fontSize="md"
+            color={
+              pathname === "/dashboard/asisten-lab" ? "brand.primary" : "black"
+            }
+            fontWeight={
+              pathname === "/dashboard/asisten-lab" ? "medium" : "normal"
+            }
+          >
+            Asisten Lab
+          </Text>
+        </Link>
         <Link href="/dashboard/tentang">
           <Text
             fontSize="md"

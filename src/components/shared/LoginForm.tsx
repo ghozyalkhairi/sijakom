@@ -6,17 +6,26 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react"
-import { FC, useState } from "react"
+import { FC, FormEventHandler, useState } from "react"
+import { signIn } from "next-auth/react"
 
 const LoginForm: FC = () => {
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
+  const onLogin: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault()
+    signIn("credentials", {
+      username,
+      password,
+      callbackUrl: "/dashboard",
+    })
+  }
   return (
     <Box bg="brand.primary" color="brand.white" p={4} mt={10} borderRadius="md">
       <Text as="h1" fontSize="2xl" fontWeight="bold" textAlign="center">
         Login
       </Text>
-      <form>
+      <form onSubmit={onLogin}>
         <FormControl id="username" mt={4}>
           <FormLabel>Username</FormLabel>
           <Input
@@ -24,6 +33,8 @@ const LoginForm: FC = () => {
             bg="brand.white"
             color="black"
             placeholder="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </FormControl>
         <FormControl id="password" mt={4}>
@@ -33,6 +44,8 @@ const LoginForm: FC = () => {
             bg="brand.white"
             color="black"
             placeholder="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </FormControl>
         <Button
