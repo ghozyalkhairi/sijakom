@@ -57,7 +57,7 @@ const HapusRuangModal: FC<Props> = ({ isOpen, onClose, selectedLab }) => {
         <ModalHeader>Hapus Ruangan</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Text>Hapus ruangan {selectedLab.nama}?</Text>
+          <Text>Hapus ruangan {selectedLab?.nama}?</Text>
         </ModalBody>
 
         <ModalFooter>
