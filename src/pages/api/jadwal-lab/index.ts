@@ -22,15 +22,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       res.send({ data: resultPut, success: true })
       break
 
-    case "DELETE":
-      const { id: idDelete, ...jadwalDelete } = req.body
-      const resultDelete = await prisma.jadwal.delete({
-        where: {
-          id: idDelete,
-        },
-      })
-      res.send({ data: resultDelete, success: true })
-      break
+    default:
+      res.status(405).end()
   }
 }
 

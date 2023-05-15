@@ -6,11 +6,17 @@ import { useEffect, useState } from "react"
 import { getRuangLab } from "@/lib/ruangLab"
 import { Box, Center, Spinner } from "@chakra-ui/react"
 import { useAppReload } from "@/store/appStore"
+import { useAuthIsLoggedIn } from "@/store/authStore"
+import { useRouter } from "next/router"
 
 const Dashboard: NextPage = () => {
   const [loadingRuangLab, setLoadingRuangLab] = useState(true)
   const [listRuangLab, setListRuangLab] = useState([])
   const reload = useAppReload()
+
+  const router = useRouter()
+
+  const isLoggedIn = useAuthIsLoggedIn()
 
   useEffect(() => {
     setLoadingRuangLab(true)
@@ -21,6 +27,13 @@ const Dashboard: NextPage = () => {
     }
     getListRuangLab()
   }, [reload])
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push("/login")
+    }
+  }, [isLoggedIn])
+
   return (
     <>
       <Head>

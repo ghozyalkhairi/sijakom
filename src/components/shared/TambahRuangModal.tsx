@@ -11,6 +11,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  useToast,
 } from "@chakra-ui/react"
 import { createRuangLab, updateRuangLab } from "@/lib/ruangLab"
 import { useAppActions } from "@/store/appStore"
@@ -36,6 +37,8 @@ const TambahRuangModal: FC<Props> = ({
     selectedLab?.jumlahKomputerAktif || 0
   )
 
+  const toast = useToast()
+
   const { setReload } = useAppActions()
 
   const updateRuangLabHandler = () => {
@@ -56,8 +59,27 @@ const TambahRuangModal: FC<Props> = ({
           setUnitAktif(0)
           onClose()
           setReload()
+
+          toast({
+            title: "Berhasil",
+            description: "Berhasil mengupdate ruangan",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          })
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          console.log(err)
+          toast({
+            title: "Gagal",
+            description: "Gagal mengupdate ruangan",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          })
+        })
     }
   }
 
@@ -78,8 +100,27 @@ const TambahRuangModal: FC<Props> = ({
           setUnitAktif(0)
           onClose()
           setReload()
+
+          toast({
+            title: "Berhasil",
+            description: "Berhasil menambahkan ruangan",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          })
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          console.log(err)
+          toast({
+            title: "Gagal",
+            description: "Gagal menambahkan ruangan",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          })
+        })
     }
   }
 

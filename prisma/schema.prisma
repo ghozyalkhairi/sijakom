@@ -11,7 +11,7 @@ datasource db {
 }
 
 model RuangLab {
-  id                  String   @id @default(cuid()) @map("_id")
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
   nama                String
   jumlahKomputerAktif Int
   jumlahKomputerTotal Int
@@ -19,9 +19,9 @@ model RuangLab {
 }
 
 model Jadwal {
-  id         String   @id @default(cuid()) @map("_id")
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   ruangLab   RuangLab @relation(fields: [ruangLabId], references: [id])
-  ruangLabId String
+  ruangLabId String   @db.ObjectId
   hari       String
   jamMulai   String
   jamSelesai String

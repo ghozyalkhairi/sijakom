@@ -32,7 +32,7 @@ export const updateRuangLab = async (ruangLab: RuangLabDraft) => {
 export const deleteRuangLab = async (ruangLabId: string) => {
   try {
     const response = await axios.delete(
-      `${API_URL}/api/ruang-lab/${ruangLabId}`
+      `${API_URL}/api/ruang-lab/hapus/${ruangLabId}`
     )
     return response.data
   } catch (error) {

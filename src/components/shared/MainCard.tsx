@@ -5,7 +5,6 @@ import OpsiRuang from "./OpsiRuang"
 import JadwalModal from "./JadwalModal"
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
-import { useAppActions } from "@/store/appStore"
 
 interface Props {
   isAuth?: boolean
@@ -14,8 +13,6 @@ interface Props {
 
 const MainCard: FC<Props> = ({ isAuth, listRuangLab }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const { setReload } = useAppActions()
 
   const [selectedRuangLab, setSelectedRuangLab] = useState<string>(
     listRuangLab[0]?.id || ""

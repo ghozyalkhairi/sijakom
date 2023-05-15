@@ -1,6 +1,7 @@
 import { FC, useState } from "react"
 import { Button, useDisclosure } from "@chakra-ui/react"
 import TambahRuangModal from "./TambahRuangModal"
+import HapusRuangModal from "./HapusRuangModal"
 
 interface Props {
   tambah?: boolean
@@ -9,6 +10,11 @@ interface Props {
 
 const OpsiRuang: FC<Props> = ({ tambah, selectedLab }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const {
+    isOpen: isOpenHapus,
+    onOpen: onOpenHapus,
+    onClose: onCloseHapus,
+  } = useDisclosure()
   const [update, setUpdate] = useState(false)
   return (
     <>
@@ -17,6 +23,11 @@ const OpsiRuang: FC<Props> = ({ tambah, selectedLab }) => {
         isOpen={isOpen}
         update={update}
         selectedLab={update ? selectedLab : undefined}
+      />
+      <HapusRuangModal
+        onClose={onCloseHapus}
+        isOpen={isOpenHapus}
+        selectedLab={selectedLab as RuangLab}
       />
       <Button
         onClick={() => {
@@ -59,6 +70,7 @@ const OpsiRuang: FC<Props> = ({ tambah, selectedLab }) => {
       </Button>
       {!tambah && (
         <Button
+          onClick={onOpenHapus}
           w="100%"
           mt={4}
           bg="brand.red"

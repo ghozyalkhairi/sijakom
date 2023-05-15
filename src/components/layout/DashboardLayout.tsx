@@ -1,12 +1,18 @@
-import { Box, Button, Text } from "@chakra-ui/react"
+import { Box, Button } from "@chakra-ui/react"
 import { FC, ReactNode } from "react"
 import DashboardNav from "./DashboardNav"
+import { useAuthActions } from "@/store/authStore"
 
 interface Props {
   children: ReactNode
 }
 
 const DashboardLayout: FC<Props> = ({ children }) => {
+  const { resetAuthState } = useAuthActions()
+
+  const handleLogout = () => {
+    resetAuthState()
+  }
   return (
     <Box w="100%" minH="100vh" display="flex" flexDir="column">
       <Box w="100%" mb={4} display="flex" flexDir="row">
@@ -21,6 +27,7 @@ const DashboardLayout: FC<Props> = ({ children }) => {
             alignItems="center"
           >
             <Button
+              onClick={handleLogout}
               bg="brand.white"
               color="brand.primary"
               size="md"

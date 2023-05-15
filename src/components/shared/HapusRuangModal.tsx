@@ -11,28 +11,28 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react"
-import { deleteJadwalLab } from "@/lib/jadwalLab"
+import { deleteRuangLab } from "@/lib/ruangLab"
 import { useAppActions } from "@/store/appStore"
 
 interface Props {
   isOpen: boolean
   onClose: () => void
-  jadwalId: string
+  selectedLab: RuangLab
 }
 
-const HapusJadwalModal: FC<Props> = ({ isOpen, onClose, jadwalId }) => {
+const HapusRuangModal: FC<Props> = ({ isOpen, onClose, selectedLab }) => {
   const { setReload } = useAppActions()
 
   const toast = useToast()
 
-  const hapusJadwal = async () => {
+  const hapusRuangan = async () => {
     try {
-      await deleteJadwalLab(jadwalId)
+      await deleteRuangLab(selectedLab.id as string)
       setReload()
       onClose()
 
       toast({
-        title: "Berhasil menghapus jadwal",
+        title: "Berhasil menghapus ruangan",
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -41,7 +41,7 @@ const HapusJadwalModal: FC<Props> = ({ isOpen, onClose, jadwalId }) => {
     } catch (err) {
       console.log(err)
       toast({
-        title: "Gagal menghapus jadwal",
+        title: "Gagal menghapus ruangan",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -54,14 +54,14 @@ const HapusJadwalModal: FC<Props> = ({ isOpen, onClose, jadwalId }) => {
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Hapus Jadwal</ModalHeader>
+        <ModalHeader>Hapus Ruangan</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Text>Hapus jadwal ini?</Text>
+          <Text>Hapus ruangan {selectedLab.nama}?</Text>
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={hapusJadwal}>
+          <Button colorScheme="blue" mr={3} onClick={hapusRuangan}>
             Hapus
           </Button>
           <Button onClick={onClose} variant="ghost">
@@ -73,4 +73,4 @@ const HapusJadwalModal: FC<Props> = ({ isOpen, onClose, jadwalId }) => {
   )
 }
 
-export default HapusJadwalModal
+export default HapusRuangModal

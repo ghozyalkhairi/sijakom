@@ -12,6 +12,7 @@ import {
   FormLabel,
   Input,
   Select,
+  useToast,
 } from "@chakra-ui/react"
 import { createJadwalLab, updateJadwalLab } from "@/lib/jadwalLab"
 import { useAppActions } from "@/store/appStore"
@@ -42,6 +43,8 @@ const JadwalModal: FC<Props> = ({
   const [namaMakul, setNamaMakul] = useState(jadwal?.matkul || "")
   const [namaDosen, setNamaDosen] = useState(jadwal?.dosen || "")
   const [urutan, setUrutan] = useState(jadwal?.urutan || 1)
+
+  const toast = useToast()
 
   const { setReload } = useAppActions()
 
@@ -81,8 +84,30 @@ const JadwalModal: FC<Props> = ({
       await createJadwalLab(jadwalLab as JadwalDraft)
       onClose()
       setReload()
+
+      setJamMulai("")
+      setJamSelesai("")
+      setNamaMakul("")
+      setNamaDosen("")
+      setUrutan(1)
+
+      toast({
+        title: "Berhasil menambahkan jadwal",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      })
     } catch (error) {
       console.log(error)
+
+      toast({
+        title: "Gagal menambahkan jadwal",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      })
     }
   }
 
